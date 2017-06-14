@@ -8,7 +8,7 @@ public class CPlane : _MonoBehaviour
 
     public float _riseForce; // 점프 힘
 
-    protected virtual void Update()
+    private void Update()
     {
         // 화면을 넘어갔다면
         if (transform.position.y > 5.5f || transform.position.y < -5.5f)
@@ -34,7 +34,7 @@ public class CPlane : _MonoBehaviour
     }
 
     // IsTrigger가 체크 되지 않은 오브젝트끼리 충돌
-    protected virtual void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         // 현재 비행기가 컬럼이랑 충돌한거라면
         if (collision.gameObject.tag == "Column")
@@ -46,7 +46,7 @@ public class CPlane : _MonoBehaviour
     }
 
     // IsTrigger가 체크 되어 있는 오브젝트와 충돌
-    protected virtual void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         // 비행기가 먹은게 별아이템이면
         if (collision.gameObject.tag == "Star")

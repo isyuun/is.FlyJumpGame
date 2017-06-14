@@ -18,6 +18,8 @@ public class CObjectGenerator : MonoBehaviour
     private void Start()
     {
         InvokeRepeating("CreateObject", _createStartTime, _createDelayTime);
+        _topCreatePosy -= transform.position.y / 2.0f;
+        _bottomCreatePosy -= transform.position.y / 2.0f;
     }
 
     private void Update()
@@ -37,7 +39,7 @@ public class CObjectGenerator : MonoBehaviour
 
         // 생성 위치에 랜덤하게 y값을 적용함
         Vector2 createPos = new Vector2(
-            _createPos.position.x, _createPos.position.y + randY);
+            _createPos.position.x + transform.position.x, _createPos.position.y + randY);
 
         // 오브젝트 생성
         Instantiate(_objectPrefab, createPos, Quaternion.identity);

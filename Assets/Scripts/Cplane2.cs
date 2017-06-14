@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Cplane2 : CPlane
 {
+    private float MAX_LEVEL = 5.5f;
+    //private float MIN_LEVEL = -5.5f;
+
     private Rigidbody2D rb;
 
     void GameOver()
@@ -27,21 +30,23 @@ public class Cplane2 : CPlane
     private void Start()
     {
         this.rb = GetComponent<Rigidbody2D>();
+        MAX_LEVEL += transform.position.y;
         EnableRagdoll();
     }
 
-    protected override void Update()
+    private void Update()
     {
-        //base.Update();
         // 화면을 위로 넘어갔다면
-        if (transform.position.y > 5.5f)
+        if (transform.position.y > MAX_LEVEL)
         {
+            Debug.Log(this.GetMethodName() + "!!!HIGH!!!" + ":" + transform.position.y);
             CGameManager2.IsGameStop = true;
         }
 
         // 화면을 아래로 넘어갔다면
-        else if (transform.position.y < -5.5f)
+        else if (transform.position.y < -MAX_LEVEL)
         {
+            Debug.Log(this.GetMethodName() + "!!!LOW!!!" + ":" + transform.position.y);
             GameOver();
         }
 
@@ -59,7 +64,7 @@ public class Cplane2 : CPlane
         }
     }
 
-    protected override void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         //Debug.Log(this.GetMethodName() + ":" + collision + ":BoxCollider2D:" + (collision.collider is BoxCollider2D) + ":CircleCollider2D:" + (collision.collider is CircleCollider2D));
         // 현재 비행기가 컬럼이랑 충돌한거라면
@@ -76,12 +81,18 @@ public class Cplane2 : CPlane
         }
     }
 
-    protected override void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         //Debug.Log(this.GetMethodName() + ":" + collision + ":" + collision.gameObject.tag);
-        base.OnTriggerEnter2D(collision);
+        // 비행기가 먹은게 별아이템이면
         if (collision.gameObject.tag == "Star")
         {
+            //Debug.Log("별 아이템 충돌");
+
+            // 별 아이템을 파괴함
+            Destroy(collision.gameObject);
+
+            // star count up
             CGameManager2.StarCountUp();
         }
     }
